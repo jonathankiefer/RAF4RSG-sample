@@ -15,8 +15,13 @@ sub init()
     'descriptor for the menu items
     itemList = [
         {
-            title: "Roku ad server (default server URL, single pre-roll)"
-            url: "" 'point to your own ad server if doing "inventory split" revenue share
+            title: "Single pre-roll ad"
+            url: "https://securepubads.g.doubleclick.net/gampad/ads?env=vp&gdfp_req=1&output=xml_vast3&unviewed_position_start=1&sz=640x480&url=https%3A%2F%2Fwww.yidio.com&iu=/1018653/video_unit_roku&sdkv=h.3.441.0&vad_type=linear&rdid=ROKU_ADS_TRACKING_ID&is_lat=ROKU_ADS_LIMIT_TRACKING&idtype=rida&correlator=ROKU_ADS_TIMESTAMP&scor=ROKU_ADS_TIMESTAMP&cust_params=genre%3DROKU_ADS_CONTENT_GENRE%26ua%3DROKU_ADS_USER_AGENT"
+        }
+        {
+            title: "Multiple mid-roll ads"
+            url: "https://securepubads.g.doubleclick.net/gampad/ads?env=vp&gdfp_req=1&output=xml_vast3&unviewed_position_start=1&sz=640x480&url=https%3A%2F%2Fwww.yidio.com&iu=/1018653/video_unit_roku&sdkv=h.3.441.0&vad_type=linear&rdid=ROKU_ADS_TRACKING_ID&is_lat=ROKU_ADS_LIMIT_TRACKING&idtype=rida&correlator=ROKU_ADS_TIMESTAMP&scor=ROKU_ADS_TIMESTAMP&cust_params=genre%3DROKU_ADS_CONTENT_GENRE%26ua%3DROKU_ADS_USER_AGENT"
+            ad_breaks: [700, 1300, 1900]
         }
     ]
 
@@ -37,25 +42,26 @@ sub onItemSelected()
 
     videoContent = {
 
-        streamFormat: "mp4",
-        titleSeason: "Art21 Season 3",
-        title: "Place",
-        url:  "http://roku.cpl.delvenetworks.com/media/59021fabe3b645968e382ac726cd6c7b/decbe34b64ea4ca281dc09997d0f23fd/aac0cfc54ae74fdfbb3ba9a2ef4c7080/117_segment_2_twitch__nw_060515.mp4",
+        streamFormat: "smooth"
+        title: "The Big Boss"
+        url:  "http://flixflingmedia.origin.mediaservices.windows.net/91e9d880-f022-4cca-96f0-602de151e471/TheBigBoss_En_Subs_1080p.ism/manifest"
 
         'used for raf.setContentGenre(). For ads provided by the Roku ad service, see docs on 'Roku Genre Tags'
-        categories: ["Documentary"]
+        categories: ["Action"]
 
         'Roku mandates that all channels enable Nielsen DAR
         nielsen_app_id: "P2871BBFF-1A28-44AA-AF68-C7DE4B148C32" 'required, put "P2871BBFF-1A28-44AA-AF68-C7DE4B148C32", Roku's default appId if not having ID from Nielsen
         nielsen_genre: "DO" 'required, put "GV" if dynamic genre or special circumstances (e.g. games)
-        nielsen_program_id: "Art21" 'movie title or series name
-        length: 3220 'in seconds;
+        nielsen_program_id: "The Big Boss" 'movie title or series name
+        length: 5940
 
     }
+    
     ' compile into a VideoContent node
     content = CreateObject("roSGNode", "VideoContent")
     content.setFields(videoContent)
     content.ad_url = menuItem.url
+    content.ad_breaks = menuItem.ad_breaks
 
     if m.Player = invalid:
         m.Player = m.top.CreateChild("Player")

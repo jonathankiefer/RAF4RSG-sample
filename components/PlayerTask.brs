@@ -29,7 +29,7 @@ sub playContentWithAds()
     ' for generic measurements api
     RAF.enableAdMeasurements(true)
     RAF.setContentGenre(content.categories)  'if unset, ContentNode has it as []
-    RAF.setContentLength(content.length)
+    RAF.setAdBreaks(content.length, content.ad_breaks)
 
     ' log tracking events
 '     logObj = {
